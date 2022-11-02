@@ -1,6 +1,7 @@
 import time
 import threading as th
 import tkinter as tk
+from datetime import datetime
 from tkinter import ttk
 
 ventana = tk.Tk()
@@ -10,6 +11,8 @@ ventana.title('Aplicacion')
 labelTitle=tk.Label(ventana)
 varText = tk.StringVar(value='Ingrese el texto aqui')
 textArea =tk.Text(ventana)
+
+
 
 ventana.rowconfigure(0, weight=1)
 ventana.rowconfigure(1, weight=1)
@@ -34,6 +37,13 @@ def countCharacter():
         time.sleep(0.1)
 
 
+def setCurrentHour():
+    while True:
+        currentHour = datetime.now()
+        labelHour.config(text='Hora Actual: '+ currentHour.strftime("%H:%M:%S"))
+        time.sleep(0.1)
+
+
 def saveFile():
     while True:
         with open('../textoPrueba.txt', 'w') as f:
@@ -52,4 +62,6 @@ hiloContarPalabras = th.Thread(target=countCharacter)
 hiloContarPalabras.start()
 hiloGuardarArchivo = th.Thread(target=saveFile)
 hiloGuardarArchivo.start()
+hiloCurrentHour = th.Thread(target=setCurrentHour)
+hiloCurrentHour.start()
 ventana.mainloop()
