@@ -1,17 +1,30 @@
 import time
 import threading as th
 import tkinter as tk
+from tkinter import ttk
 
 ventana = tk.Tk()
-ventana.geometry('600x200')
+ventana.geometry('600x500')
 ventana.title('Aplicacion')
 
 labelTitle=tk.Label(ventana)
 varText = tk.StringVar(value='Ingrese el texto aqui')
 textArea =tk.Text(ventana)
 
-labelTitle.pack()
-textArea.pack()
+ventana.rowconfigure(0, weight=1)
+ventana.rowconfigure(1, weight=1)
+
+ventana.columnconfigure(0, weight=1)
+ventana.columnconfigure(1, weight=1)
+
+ventana.rowconfigure(2, weight=1)
+ventana.rowconfigure(3, weight=1)
+
+ventana.columnconfigure(2, weight=1)
+ventana.columnconfigure(3, weight=1)
+
+labelTitle.grid(row=0, column=0)
+textArea.grid(row=1, column=0, columnspan=2, rowspan=1)
 
 
 def countCharacter():
@@ -27,6 +40,13 @@ def saveFile():
             f.write(textArea.get(1.0, tk.END))
             f.close()
             time.sleep(0.1)
+
+def deleteText():
+    textArea.delete(1.0, tk.END)
+
+
+buttonDelete = ttk.Button(ventana, text='Borrar Texto', command=deleteText)
+buttonDelete.grid(row=2, column=0)
 
 hiloContarPalabras = th.Thread(target=countCharacter)
 hiloContarPalabras.start()
